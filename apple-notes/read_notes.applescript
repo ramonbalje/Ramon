@@ -1,4 +1,4 @@
--- Read all notes from Apple Notes
+-- Read notes from Apple Notes (iCloud account)
 -- Usage: osascript read_notes.applescript
 -- Optional: osascript read_notes.applescript "Folder Name"
 
@@ -9,10 +9,29 @@ on run argv
 	end if
 
 	tell application "Notes"
+		-- Target iCloud account
+		set icloudAccount to missing value
+		repeat with a in every account
+			if name of a is "iCloud" then
+				set icloudAccount to a
+				exit repeat
+			end if
+		end repeat
+
+		if icloudAccount is missing value then
+			return "Error: iCloud account not found in Notes."
+		end if
+
+		set allNotes to {}
 		if folderFilter is "" then
-			set allNotes to every note
+			set allNotes to every note of icloudAccount
 		else
-			set allNotes to every note of folder folderFilter
+			repeat with f in every folder of icloudAccount
+				if name of f is folderFilter then
+					set allNotes to every note of f
+					exit repeat
+				end if
+			end repeat
 		end if
 
 		set output to ""

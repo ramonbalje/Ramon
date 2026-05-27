@@ -1,4 +1,4 @@
--- Create or update a note in Apple Notes
+-- Create or update a note in Apple Notes (iCloud account for iPhone sync)
 -- Usage: osascript write_note.applescript "Title" "Body" ["Folder Name"]
 
 on run argv
@@ -14,20 +14,29 @@ on run argv
 	end if
 
 	tell application "Notes"
-		-- Find or create the target folder
-		if folderName is not "Notes" then
-			set targetFolder to missing value
-			repeat with f in every folder
-				if name of f is folderName then
-					set targetFolder to f
-					exit repeat
-				end if
-			end repeat
-			if targetFolder is missing value then
-				set targetFolder to make new folder with properties {name: folderName}
+		-- Target iCloud account so note syncs to iPhone
+		set icloudAccount to missing value
+		repeat with a in every account
+			if name of a is "iCloud" then
+				set icloudAccount to a
+				exit repeat
 			end if
-		else
-			set targetFolder to folder "Notes"
+		end repeat
+
+		if icloudAccount is missing value then
+			return "Error: iCloud account not found in Notes. Make sure iCloud Notes is enabled in System Settings."
+		end if
+
+		-- Find or create the target folder inside iCloud account
+		set targetFolder to missing value
+		repeat with f in every folder of icloudAccount
+			if name of f is folderName then
+				set targetFolder to f
+				exit repeat
+			end if
+		end repeat
+		if targetFolder is missing value then
+			set targetFolder to make new folder at icloudAccount with properties {name: folderName}
 		end if
 
 		-- Check if a note with the same title already exists
@@ -40,13 +49,11 @@ on run argv
 		end repeat
 
 		if existingNote is not missing value then
-			-- Update existing note
 			set body of existingNote to noteBody
-			return "Updated note: " & noteTitle & " in folder: " & folderName
+			return "Updated note: " & noteTitle & " in iCloud folder: " & folderName
 		else
-			-- Create new note
 			make new note at targetFolder with properties {name: noteTitle, body: noteBody}
-			return "Created note: " & noteTitle & " in folder: " & folderName
+			return "Created note: " & noteTitle & " in iCloud folder: " & folderName
 		end if
 	end tell
 end run
