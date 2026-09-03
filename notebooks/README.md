@@ -47,6 +47,25 @@ unset falls back to the old `Z:` drive paths.
 `output_data/` are written. Keep the data elsewhere by setting
 `MONTHLY_REPORT_DATA_DIR` in `.env`.
 
+## Check the setup
+
+`tools/check_env.py` verifies all of the above in one shot — interpreter,
+dependencies, where `ao` lives, and whether the data files are in place:
+
+```powershell
+python tools\check_env.py
+```
+
+If it can't find `ao`, point it at the folder holding your clones and it will
+print the exact `AO_CODE_PATHS` line to paste into `.env`:
+
+```powershell
+python tools\check_env.py --search C:\Users\ramon.balje\code
+```
+
+It exits 0 when everything needed to run the notebook is present, 1 with a
+list of what to fix.
+
 ## Running it
 
 Open `notebooks/MonthlyReport.ipynb`, click **Select Kernel** in the top right,
