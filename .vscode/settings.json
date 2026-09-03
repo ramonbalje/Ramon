@@ -1,0 +1,25 @@
+{
+  // Interpreter created by `py -3.12 -m venv .venv` (Windows layout).
+  // On macOS/Linux use "${workspaceFolder}/.venv/bin/python".
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+
+  // Makes AO_CODE_PATHS / MONTHLY_REPORT_DATA_DIR from .env available to the
+  // Python extension and to Jupyter kernels started by VS Code.
+  "python.envFile": "${workspaceFolder}/.env",
+
+  // Working directory for notebook kernels. The notebook resolves its data
+  // files relative to this, so mm_stats_data.xlsx and the trade CSVs live in
+  // <repo>/data and output lands in <repo>/data/output_plots + output_data.
+  "jupyter.notebookFileRoot": "${workspaceFolder}/data",
+
+  "python.terminal.activateEnvironment": true,
+
+  // This notebook prints long diagnostics; don't truncate them aggressively.
+  "notebook.output.textLineLimit": 500,
+  "notebook.output.scrolling": true,
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.ipynb_checkpoints": true
+  }
+}

@@ -1,0 +1,18 @@
+# Machine-specific paths
+.env
+
+# Virtual environments
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Report data + generated output (kept local, never committed)
+data/*.xlsx
+data/*.csv
+data/*.parquet
+data/output_plots/
+data/output_data/

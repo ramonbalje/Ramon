@@ -1,0 +1,29 @@
+# Runtime dependencies for notebooks/MonthlyReport.ipynb
+# Install with:  pip install -r requirements.txt
+#
+# NOTE: the internal `ao` package (ao.quantlib.DataProvider) is NOT on PyPI.
+# It is picked up from your local clones of quantresearch / ao_common via the
+# AO_CODE_PATHS entry in .env -- see notebooks/README.md.
+
+# pandas is capped below 3.0: the notebook was written against the 2.x API and
+# pandas 3 changes copy-on-write / indexing behaviour.
+pandas>=2.2,<3.0
+numpy>=1.26,<3.0
+matplotlib>=3.8
+tqdm>=4.66
+
+# Excel I/O: pd.read_excel(mm_stats_data.xlsx) and df.to_excel(...)
+openpyxl>=3.1
+
+# Parquet cache: df.to_parquet / pd.read_parquet
+pyarrow>=15.0
+
+# The notebook imports pkg_resources, which ships inside setuptools and is
+# being removed in newer releases -- pin below the removal.
+setuptools<81
+
+# Reads .env so the notebook finds AO_CODE_PATHS outside VS Code too
+python-dotenv>=1.0
+
+# Jupyter kernel used by the VS Code notebook editor
+ipykernel>=6.29
